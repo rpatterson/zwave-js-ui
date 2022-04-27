@@ -1,0 +1,19 @@
+version: '3.7'
+
+services:
+
+  zwavejs2mqtt:
+    # This and the global definition at the bottom define a network name other than the
+    # default compose network named after the directory, which would be `docker_default`
+    # if running in this directory, very likely to clash.
+    networks:
+      - 'zwave'
+
+networks:
+  # See above regarding network names.
+  zwave:
+
+volumes:
+  # Use a docker-managed volume for persistent data.
+  zwave-config:
+    name: '${ZWAVEJS_VOLUME}'
