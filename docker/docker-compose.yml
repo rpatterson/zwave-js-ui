@@ -1,4 +1,10 @@
 version: '3.7'
+# A re-usable configuration of a Zwavejs2Mqtt container as a service.  If using this
+# configuration in this directory from a git checkout, you may place custom
+# modifications in `./docker-compose.override.yml` instead of un-commenting lines here
+# to keep the `$ git status` clean.  Where `${...}` variable substitution is used, you
+# may put values in a `./.env` file instead.  See `./docker-compose.override.yml.in` and
+# `./.env.in` for examples.
 services:
 
   zwave-js-ui:
@@ -8,18 +14,22 @@ services:
     tty: true
     stop_signal: 'SIGINT'
     environment:
-      SESSION_SECRET: 'mysupersecretkey'
-      # Uncomment if you want logs time and dates to match your timezone instead of UTC
-      # Available at https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
-      #TZ: 'America/New_York'
+      SESSION_SECRET: '${SESSION_SECRET:?SESSION_SECRET must be defined}'
+      # Add your timezone to `./.env` if you want logs time and dates to match your
+      # timezone instead of UTC.  Available at:
+      #     https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+      TZ: '${TZ:-Etc/UTC}'
     networks:
       - 'zwave'
     devices:
-      # Do not use /dev/ttyUSBX serial devices, as those mappings can change over time.
-      # Instead, use the /dev/serial/by-id/X serial device for your Z-Wave stick.
-      - '/dev/serial/by-id/insert_stick_reference_here:/dev/zwave'
+      # Add your USB device path to `./.env`.  Do not use /dev/ttyUSBX serial devices,
+      # as those mappings can change over time.  Instead, use the /dev/serial/by-id/X
+      # serial device for your Z-Wave stick.
+      - '${ZWAVEJS_DEV:?ZWAVEJS_DEV must be defined}:/dev/zwave'
+    # Add a volume definition to `./.env` so that data persists across containers, which
+    # should be ephemeral and not used to store data.
     volumes:
-      - 'zwave-config:/usr/src/app/store'
+      - '${ZWAVEJS_VOLUME:?ZWAVEJS_VOLUME must be defined}:/usr/src/app/store/'
     ports:
       - '8091:8091' # port for web interface
       - '3000:3000' # port for Z-Wave JS websocket server
