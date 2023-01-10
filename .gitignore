@@ -75,6 +75,7 @@ typings/
 *.ntvs*
 *.njsproj
 *.sln
+*~
 
 .pnp.*
 .yarn/*
