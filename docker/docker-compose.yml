@@ -1,4 +1,3 @@
-version: '3.7'
 # A re-usable configuration of a Zwavejs2Mqtt container as a service.  If using this
 # configuration in this directory from a git checkout, you may place custom
 # modifications in `./docker-compose.override.yml` instead of un-commenting lines here
