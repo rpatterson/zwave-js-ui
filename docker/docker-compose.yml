@@ -9,7 +9,7 @@ services:
   zwave-js-ui:
     container_name: 'zwave-js-ui'
     image: 'ghcr.io/zwave-js/zwave-js-ui:latest'
-    restart: 'always'
+    restart: 'unless-stopped'
     tty: true
     stop_signal: 'SIGINT'
     environment:

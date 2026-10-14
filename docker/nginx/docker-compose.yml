@@ -9,7 +9,7 @@ services:
         - ./etc/proxy.conf:/etc/nginx/proxy.conf
         - ./etc/nginx.crt:/etc/nginx/nginx.crt
         - ./etc/nginx.key:/etc/nginx/nginx.key
-      restart: always
+      restart: "unless-stopped"
       network_mode: "host"
 
 
